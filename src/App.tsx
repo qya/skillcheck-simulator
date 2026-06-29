@@ -136,39 +136,71 @@ function App() {
     const slotSize = TAU / cfg.zoneTotal
     const requestedSize = Math.max(0.2, 0.2 + cfg.zone * 0.1)
     const zoneSize = Math.min(requestedSize, slotSize * 0.72)
-    let rotation = Math.random() * TAU
-    for (let attempt = 0; attempt < 50; attempt++) {
-      rotation = Math.random() * TAU
-      const diff = Math.abs(norm(rotation - e.needle))
-      const distance = Math.min(diff, TAU - diff)
-      if (distance > 1.4) break
+
+    // Minimum angular distance between the needle and the nearest zone edge.
+    // This ensures the player has enough travel time before encountering a zone.
+    const MIN_NEEDLE_DISTANCE = 1.6
+
+    // Helper: shortest angular distance between a point and a zone's nearest edge
+    const distToZone = (point: number, zStart: number, zSize: number) => {
+      const p = norm(point)
+      const s = norm(zStart)
+      const end = norm(s + zSize)
+      // Distance to start edge
+      const dStart = Math.min(Math.abs(norm(p - s)), TAU - Math.abs(norm(p - s)))
+      // Distance to end edge
+      const dEnd = Math.min(Math.abs(norm(p - end)), TAU - Math.abs(norm(p - end)))
+      // If the point is inside the zone, distance is 0
+      if (inRange(p, s, zSize)) return 0
+      return Math.min(dStart, dEnd)
     }
 
-    e.zones = Array.from({ length: cfg.zoneTotal }, (_, index) => {
-      const variance =
-        modeRef.current === 'arcade' ? 0 : (Math.random() - 0.5) * Math.min(0.1, slotSize * 0.08)
-      const size = Math.max(0.2, zoneSize + variance)
-      const greatSize = size * 0.3
-      const center = rotation + index * slotSize + (Math.random() - 0.5) * slotSize * 0.12
-      const start = norm(center - size / 2)
-      return {
-        start,
-        size,
-        greatStart: norm(start + (size - greatSize) * (0.3 + Math.random() * 0.4)),
-        greatSize,
+    // Try generating zones that are far enough from the needle
+    let bestZones: Zone[] = []
+    let bestDistance = 0
+    for (let attempt = 0; attempt < 80; attempt++) {
+      const rotation = Math.random() * TAU
+      const zones: Zone[] = Array.from({ length: cfg.zoneTotal }, (_, index) => {
+        const variance =
+          modeRef.current === 'arcade' ? 0 : (Math.random() - 0.5) * Math.min(0.1, slotSize * 0.08)
+        const size = Math.max(0.2, zoneSize + variance)
+        const greatSize = size * 0.3
+        const center = rotation + index * slotSize + (Math.random() - 0.5) * slotSize * 0.12
+        const start = norm(center - size / 2)
+        return {
+          start,
+          size,
+          greatStart: norm(start + (size - greatSize) * (0.3 + Math.random() * 0.4)),
+          greatSize,
+        }
+      })
+
+      // Check the minimum distance from the needle to any zone edge
+      const minDist = Math.min(...zones.map(z => distToZone(e.needle, z.start, z.size)))
+      if (minDist > bestDistance) {
+        bestDistance = minDist
+        bestZones = zones
       }
-    })
+      if (minDist >= MIN_NEEDLE_DISTANCE) break
+    }
+    e.zones = bestZones
+
     e.hasOvercharge = cfg.overcharge
     if (cfg.overcharge) {
       e.overSize = 0.35 + Math.random() * 0.15
-      let candidate = Math.random() * TAU
-      for (let attempt = 0; attempt < 50; attempt++) {
-        candidate = Math.random() * TAU
-        const diff = Math.abs(norm(candidate - e.needle))
-        const distance = Math.min(diff, TAU - diff)
-        if (distance > 1.2 && !e.zones.some(zone => overlaps(candidate, e.overSize, zone.start, zone.size))) break
+      let bestCandidate = Math.random() * TAU
+      let bestOverDist = 0
+      for (let attempt = 0; attempt < 80; attempt++) {
+        const candidate = Math.random() * TAU
+        const needleDist = distToZone(e.needle, candidate, e.overSize)
+        const noOverlap = !e.zones.some(zone => overlaps(candidate, e.overSize, zone.start, zone.size))
+        if (needleDist > bestOverDist && noOverlap) {
+          bestOverDist = needleDist
+          bestCandidate = candidate
+        }
+        if (needleDist >= MIN_NEEDLE_DISTANCE && noOverlap) break
       }
-      e.overStart = candidate
+      e.overStart = bestCandidate
     }
   }, [])
 
