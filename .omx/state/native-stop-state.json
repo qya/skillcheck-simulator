@@ -1,0 +1,16 @@
+{
+  "sessions": {
+    "019f10a7-5366-7800-8b0e-84f4c9e35ec7": {
+      "ordinary_no_progress_guard": {
+        "fingerprint": "ordinary|fixed: - mode selector stays visible. - selecting play or arcade only arms that mode. - no additional start message appears. - the existing `space` or `tap` button starts gameplay. - button remains disabled until a mode is selected. - stopwatch appears only after gameplay starts. lint and build pass.",
+        "first_seen_at": "2026-06-29T01:08:48.912Z",
+        "last_seen_at": "2026-06-29T01:08:48.912Z",
+        "repeat_count": 1,
+        "last_turn_id": "019f10eb-5e62-76a0-a061-c23de0db1e61",
+        "last_thread_id": null
+      },
+      "last_signature": "auto-nudge|019f10a7-5366-7800-8b0e-84f4c9e35ec7|no-thread|019f10d1-dbf2-7561-a584-cfd79ec8c149|/Users/faistech/.codex/sessions/2026/06/29/rollout-2026-06-29T06-53-49-019f10a7-5366-7800-8b0e-84f4c9e35ec7.jsonl|stall:proceed_intent|stall:proceed_intent",
+      "updated_at": "2026-06-29T00:40:41.352Z"
+    }
+  }
+}
