@@ -141,8 +141,9 @@ export function SettingsDrawer({
           <Toggle
             label="Overcharge Zone"
             hint="Add a danger zone you must avoid"
-            checked={settings.overcharge}
+            checked={isVD ? false : settings.overcharge}
             onChange={value => onUpdateSetting('overcharge', value)}
+            disabled={isVD}
           />
           <Toggle
             label="Continue on Hit"

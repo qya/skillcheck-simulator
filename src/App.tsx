@@ -123,6 +123,7 @@ function App() {
     if (nextSettings.theme === 'vd') {
       nextSettings.zoneTotal = 1
       nextSettings.randomStart = false
+      nextSettings.overcharge = false
     }
     settingsRef.current = nextSettings
     if (modeRef.current === 'play') gameConfigRef.current = settingsRef.current
@@ -204,7 +205,7 @@ function App() {
       speed: 3 + Math.floor(Math.random() * 6),
       zone: 3 + Math.floor(Math.random() * 6),
       zoneTotal: isVD ? 1 : 1 + Math.floor(Math.random() * 2),
-      overcharge: Math.random() < 0.3,
+      overcharge: isVD ? false : Math.random() < 0.3,
       randomStart: isVD ? false : true,
     }
     generateZones()
