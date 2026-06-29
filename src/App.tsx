@@ -119,7 +119,12 @@ function App() {
   })
 
   const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
-    settingsRef.current = { ...settingsRef.current, [key]: value }
+    let nextSettings = { ...settingsRef.current, [key]: value }
+    if (nextSettings.theme === 'vd') {
+      nextSettings.zoneTotal = 1
+      nextSettings.randomStart = false
+    }
+    settingsRef.current = nextSettings
     if (modeRef.current === 'play') gameConfigRef.current = settingsRef.current
     setSettings(settingsRef.current)
   }
@@ -191,13 +196,16 @@ function App() {
   const spawnDemo = useCallback(() => {
     if (modeChosenRef.current) return
     const e = engine.current
+    const demoTheme = settingsRef.current.theme || initialSettings.theme
+    const isVD = demoTheme === 'vd'
     gameConfigRef.current = {
       ...initialSettings,
+      theme: demoTheme,
       speed: 3 + Math.floor(Math.random() * 6),
       zone: 3 + Math.floor(Math.random() * 6),
-      zoneTotal: 1 + Math.floor(Math.random() * 2),
+      zoneTotal: isVD ? 1 : 1 + Math.floor(Math.random() * 2),
       overcharge: Math.random() < 0.3,
-      randomStart: true,
+      randomStart: isVD ? false : true,
     }
     generateZones()
     e.speed = 0.025 + Math.random() * 0.025

@@ -99,10 +99,10 @@ export function arcadeSettings(level: number, difficulty: Difficulty): Settings 
   return {
     speed,
     zone,
-    zoneTotal: difficulty === 'extreme' || level >= 4 ? 1 : Math.random() < .5 ? 1 : 2,
+    zoneTotal: 1,
     overcharge: (difficulty === 'extreme' || level >= 3) && Math.random() < overchargeChance,
     continuation: false,
-    randomStart: (difficulty === 'extreme' || level >= 2) && Math.random() < randomStartChance,
+    randomStart: false,
     autoSpawn: true,
     stopwatch: false,
     theme: 'vd',
@@ -178,7 +178,7 @@ export function drawShareCard(
   ctx.font = `${Math.round(width * .013)}px Barlow`
   ctx.letterSpacing = '1px'
   ctx.fillStyle = '#737386'
-  ctx.fillText('Check your tool on https://skillcheck.ga.ci', width - pad, pad)
+  ctx.fillText('Check your too on https://skillcheck.ga.ci', width - pad, pad)
   ctx.textAlign = 'left'
   ctx.font = `${Math.round(width * .068)}px "Bebas Neue"`
   ctx.letterSpacing = '3px'
@@ -265,10 +265,9 @@ export function drawShareCard(
   ctx.font = `${Math.round(width * .014)}px Barlow`
   ctx.letterSpacing = '1px'
   ctx.fillText(
-    `TIME  ${formatDuration(stats.timePlayed)}     PACE  ${pace}/MIN     STREAK  ${stats.best}${
-      mode === 'arcade'
-        ? `     HIGH SCORE  ${arcade.highScore.toLocaleString()}     LEVEL  ${arcade.highestLevel}`
-        : `     ACHIEVEMENTS  ${unlocked}/${achievements.length}`
+    `TIME  ${formatDuration(stats.timePlayed)}     PACE  ${pace}/MIN     STREAK  ${stats.best}${mode === 'arcade'
+      ? `     HIGH SCORE  ${arcade.highScore.toLocaleString()}     LEVEL  ${arcade.highestLevel}`
+      : `     ACHIEVEMENTS  ${unlocked}/${achievements.length}`
     }`,
     pad,
     footerY

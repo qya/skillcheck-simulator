@@ -24,15 +24,17 @@ function SettingSlider({
   value,
   max = 10,
   onChange,
+  disabled = false,
 }: {
   label: string
   hint: string
   value: number
   max?: number
   onChange: (value: number) => void
+  disabled?: boolean
 }) {
   return (
-    <div className="setting-row">
+    <div className="setting-row" aria-disabled={disabled}>
       <Label label={label} hint={hint} />
       <div className="slider-wrap">
         <input
@@ -41,6 +43,7 @@ function SettingSlider({
           min="1"
           max={max}
           value={value}
+          disabled={disabled}
           onChange={e => onChange(Number(e.target.value))}
         />
         <span>{value}</span>
@@ -54,19 +57,22 @@ function Toggle({
   hint,
   checked,
   onChange,
+  disabled = false,
 }: {
   label: string
   hint: string
   checked: boolean
   onChange: (value: boolean) => void
+  disabled?: boolean
 }) {
   return (
-    <div className="setting-row">
+    <div className="setting-row" aria-disabled={disabled}>
       <Label label={label} hint={hint} />
       <label className="toggle">
         <input
           type="checkbox"
           checked={checked}
+          disabled={disabled}
           onChange={e => onChange(e.target.checked)}
           aria-label={label}
         />
@@ -84,6 +90,8 @@ export function SettingsDrawer({
   onClose,
   onResetStats,
 }: SettingsDrawerProps) {
+  const isVD = settings.theme === 'vd'
+
   return (
     <aside
       id="settings-drawer"
@@ -125,9 +133,10 @@ export function SettingsDrawer({
           <SettingSlider
             label="Zone Total"
             hint="Number of success zones"
-            value={settings.zoneTotal}
+            value={isVD ? 1 : settings.zoneTotal}
             max={5}
             onChange={value => onUpdateSetting('zoneTotal', value)}
+            disabled={isVD}
           />
           <Toggle
             label="Overcharge Zone"
@@ -144,8 +153,9 @@ export function SettingsDrawer({
           <Toggle
             label="Random Start"
             hint="Needle starts at random position"
-            checked={settings.randomStart}
+            checked={isVD ? false : settings.randomStart}
             onChange={value => onUpdateSetting('randomStart', value)}
+            disabled={isVD}
           />
           <Toggle
             label="Fail Threshold"
