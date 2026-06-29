@@ -173,6 +173,13 @@ export function drawShareCard(
   ctx.fillStyle = '#737386'
   const title = theme === 'dbd' ? 'DEATH BY DAYLIGHT' : theme === 'vd' ? 'VIOLENT DISTRICT' : 'CLOCK WISE'
   ctx.fillText(title, pad, pad)
+
+  ctx.textAlign = 'right'
+  ctx.font = `${Math.round(width * .013)}px Barlow`
+  ctx.letterSpacing = '1px'
+  ctx.fillStyle = '#737386'
+  ctx.fillText('Check your tool on https://skillcheck.ga.ci', width - pad, pad)
+  ctx.textAlign = 'left'
   ctx.font = `${Math.round(width * .068)}px "Bebas Neue"`
   ctx.letterSpacing = '3px'
   ctx.fillStyle = '#e8e8ec'
