@@ -580,7 +580,7 @@ function App() {
             setWaiting('PRESS SPACE OR TAP TO PLAY AGAIN')
             setIsWaiting(true)
             setRunStarted(false)
-          } else if (gameConfigRef.current.autoSpawn) spawn()
+          } else if (gameConfigRef.current.autoSpawn && (modeRef.current !== 'play' || kind !== 'miss')) spawn()
           else {
             setWaiting('TAP TO START SKILL CHECK')
             setIsWaiting(true)

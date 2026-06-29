@@ -13,7 +13,7 @@ export const initialSettings: Settings = {
   autoSpawn: true,
   stopwatch: false,
   theme: 'vd',
-  generatorMusic: false,
+  generatorMusic: true,
   failThreshold: true,
 }
 
@@ -106,7 +106,7 @@ export function arcadeSettings(level: number, difficulty: Difficulty): Settings 
     autoSpawn: true,
     stopwatch: false,
     theme: 'vd',
-    generatorMusic: false,
+    generatorMusic: true,
     failThreshold: true,
   } as Settings
 }
@@ -201,7 +201,8 @@ export function drawShareCard(
   ctx.beginPath()
   ctx.arc(ringX, ringY, radius, 0, TAU)
   ctx.stroke()
-  ctx.strokeStyle = '#3ddc84'
+  const ringColor = accuracy >= 75 ? '#3ddc84' : accuracy >= 40 ? '#f0c040' : '#c41e1e'
+  ctx.strokeStyle = ringColor
   ctx.lineCap = 'round'
   ctx.beginPath()
   ctx.arc(ringX, ringY, radius, -Math.PI / 2, -Math.PI / 2 + (TAU * accuracy) / 100)

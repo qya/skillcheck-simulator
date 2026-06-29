@@ -32,6 +32,9 @@ export function StatsDrawer({
   const recent = history.slice(-24)
   const checksPerMinute = stats.timePlayed ? stats.total / (stats.timePlayed / 60) : 0
 
+  const ringColor = accuracy >= 75 ? 'var(--success)' : accuracy >= 40 ? 'var(--great)' : 'var(--accent)'
+  const ringGlow = accuracy >= 75 ? 'var(--success-glow)' : accuracy >= 40 ? 'var(--great-glow)' : 'var(--accent-glow)'
+
   return (
     <aside
       id="stats-drawer"
@@ -72,7 +75,11 @@ export function StatsDrawer({
         <section className="performance-hero">
           <div
             className="accuracy-ring"
-            style={{ '--accuracy': `${accuracy * 3.6}deg` } as React.CSSProperties}
+            style={{
+              '--accuracy': `${accuracy * 3.6}deg`,
+              '--ring-color': ringColor,
+              '--ring-glow': ringGlow,
+            } as React.CSSProperties}
           >
             <div>
               <strong>{accuracy}%</strong>
