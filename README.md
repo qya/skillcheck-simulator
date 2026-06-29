@@ -2,7 +2,7 @@
 
 A browser-based **Dead by Daylight skill check trainer** built with React, TypeScript, and Vite. Practice and master skill checks with multiple themes, game modes, and real-time audio feedback — right in your browser.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-brightgreen?style=for-the-badge)](https://github.com/qya/skillcheck-simulator)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-brightgreen?style=for-the-badge)](https://skillcheck.ga.ci/)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 [![Tech](https://img.shields.io/badge/Built%20With-React%20%2B%20TypeScript%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react)](https://vitejs.dev)
 

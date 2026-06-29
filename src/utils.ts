@@ -12,7 +12,7 @@ export const initialSettings: Settings = {
   randomStart: false,
   autoSpawn: true,
   stopwatch: false,
-  theme: 'default',
+  theme: 'vd',
   generatorMusic: false,
   failThreshold: true,
 }
@@ -105,7 +105,7 @@ export function arcadeSettings(level: number, difficulty: Difficulty): Settings 
     randomStart: (difficulty === 'extreme' || level >= 2) && Math.random() < randomStartChance,
     autoSpawn: true,
     stopwatch: false,
-    theme: 'default',
+    theme: 'vd',
     generatorMusic: false,
     failThreshold: true,
   } as Settings
